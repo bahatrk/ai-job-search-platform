@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="An independent early-stage project exploring AI-assisted job discovery, job-fit insights, and application preparation." />
+  <meta name="theme-color" content="#101827">
+  <title>AI Job Search Platform — Project Overview</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --page: light-dark(#f5f7fb, #0b1020);
+      --surface: light-dark(#ffffff, #121a2c);
+      --surface-soft: light-dark(#eef2ff, #18223a);
+      --text: light-dark(#172033, #edf2ff);
+      --muted: light-dark(#5e687c, #a7b2c9);
+      --border: light-dark(#dce3ef, #29344b);
+      --accent: light-dark(#4f46e5, #a5b4fc);
+      --accent-strong: light-dark(#3730a3, #c7d2fe);
+      --good: light-dark(#087f5b, #6ee7b7);
+      --shadow: 0 18px 60px rgba(20, 32, 58, .10);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+    .site-root {
+      min-height: 100vh;
+      width: 100%;
+      background: var(--page);
+      border-radius: 0;
+      overflow: hidden;
+    }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    header { padding: 22px 0; border-bottom: 1px solid var(--border); }
+    .nav { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: flex; align-items: center; gap: 12px; color: var(--text); text-decoration: none; font-weight: 750; letter-spacing: -.03em; }
+    .brand-mark { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 13px; color: white; background: linear-gradient(135deg, #4f46e5, #0ea5e9); box-shadow: 0 8px 22px rgba(79,70,229,.22); }
+    .brand-mark svg { width: 22px; height: 22px; }
+    .nav-label { font-size: .88rem; color: var(--muted); }
+    .hero { padding: 86px 0 76px; position: relative; }
+    .hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr); align-items: center; gap: 56px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; padding: 7px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--surface); color: var(--muted); font-size: .8rem; font-weight: 650; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #10b981; box-shadow: 0 0 0 4px rgba(16,185,129,.12); }
+    h1 { margin: 22px 0 20px; max-width: 760px; font-size: clamp(2.6rem, 6vw, 4.7rem); line-height: 1.03; letter-spacing: -.065em; font-weight: 800; }
+    .gradient { background: linear-gradient(100deg, #6366f1 10%, #0891b2 85%); color: transparent; background-clip: text; -webkit-background-clip: text; }
+    .lead { max-width: 650px; color: var(--muted); font-size: clamp(1.04rem, 1.6vw, 1.18rem); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 30px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; padding: 12px 17px; border-radius: 12px; border: 1px solid var(--border); text-decoration: none; color: var(--text); font-weight: 700; font-size: .94rem; transition: transform .18s ease, border-color .18s ease; }
+    .button:hover { transform: translateY(-2px); border-color: var(--accent); }
+    .button.primary { color: white; background: #4f46e5; border-color: #4f46e5; }
+    .visual { position: relative; min-height: 360px; display: grid; place-items: center; }
+    .orb { width: min(310px, 75vw); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 34% 28%, rgba(129,140,248,.85), rgba(79,70,229,.25) 34%, rgba(14,165,233,.12) 60%, transparent 70%); filter: blur(1px); position: absolute; }
+    .dashboard-card { position: relative; width: min(350px, 100%); border: 1px solid var(--border); border-radius: 22px; background: color-mix(in srgb, var(--surface) 92%, transparent); box-shadow: var(--shadow); padding: 20px; transform: rotate(2deg); }
+    .card-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
+    .mini-label { color: var(--muted); font-size: .75rem; font-weight: 650; }
+    .pill { border-radius: 999px; padding: 5px 9px; font-size: .72rem; font-weight: 750; background: var(--surface-soft); color: var(--accent-strong); }
+    .job-line { display: flex; align-items: center; gap: 12px; padding: 13px 0; border-top: 1px solid var(--border); }
+    .company-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; background: var(--surface-soft); color: var(--accent-strong); font-weight: 800; }
+    .job-info { flex: 1; min-width: 0; }
+    .job-info strong { display: block; font-size: .9rem; }
+    .job-info span { color: var(--muted); font-size: .76rem; }
+    .fit { color: var(--good); font-size: .78rem; font-weight: 800; }
+    .section { padding: 72px 0; border-top: 1px solid var(--border); }
+    .section-heading { max-width: 720px; margin-bottom: 32px; }
+    .section-heading h2 { margin: 0 0 12px; font-size: clamp(1.8rem, 3.8vw, 2.8rem); letter-spacing: -.045em; line-height: 1.12; }
+    .section-heading p { margin: 0; color: var(--muted); }
+    .features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feature { background: var(--surface); border: 1px solid var(--border); border-radius: 18px; padding: 23px; }
+    .feature-icon { display: grid; place-items: center; width: 43px; height: 43px; border-radius: 13px; background: var(--surface-soft); color: var(--accent-strong); margin-bottom: 17px; }
+    .feature-icon svg { width: 22px; height: 22px; }
+    .feature h3 { margin: 0 0 8px; font-size: 1.03rem; letter-spacing: -.02em; }
+    .feature p { margin: 0; color: var(--muted); font-size: .92rem; }
+    .principles { display: grid; grid-template-columns: .75fr 1.25fr; gap: 48px; align-items: start; }
+    .principles h2 { margin: 0; font-size: clamp(1.8rem, 3.4vw, 2.6rem); line-height: 1.12; letter-spacing: -.045em; }
+    .principle-list { display: grid; gap: 18px; }
+    .principle { display: grid; grid-template-columns: 28px 1fr; gap: 12px; }
+    .check { color: var(--good); font-size: 1.2rem; font-weight: 900; }
+    .principle strong { display: block; margin-bottom: 3px; }
+    .principle p { margin: 0; color: var(--muted); font-size: .93rem; }
+    .status-panel { background: var(--surface-soft); border: 1px solid var(--border); border-radius: 20px; padding: 25px; display: flex; align-items: start; gap: 16px; }
+    .status-panel .status-mark { font-size: 1.35rem; }
+    .status-panel strong { display: block; margin-bottom: 5px; }
+    .status-panel p { margin: 0; color: var(--muted); font-size: .93rem; }
+    footer { padding: 28px 0 36px; border-top: 1px solid var(--border); color: var(--muted); font-size: .83rem; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    .footer-note { max-width: 700px; }
+    @media (max-width: 800px) {
+      .hero { padding: 58px 0 54px; }
+      .hero-grid, .principles { grid-template-columns: 1fr; gap: 28px; }
+      .visual { min-height: 300px; }
+      .features { grid-template-columns: 1fr; }
+      .section { padding: 54px 0; }
+      .nav-label { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .button { transition: none; } }
+  </style>
+</head>
+<body>
+  <div class="site-root">
+    <header>
+      <div class="wrap nav">
+        <a class="brand" href="#top" aria-label="AI Job Search Platform home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.8" cy="10.8" r="6.6"></circle><path d="m16 16 4.5 4.5M8.5 10.8h4.6M10.8 8.5v4.6"></path></svg>
+          </span>
+          <span>AI Job Search Platform</span>
+        </a>
+        <span class="nav-label">Independent project · In development</span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <span class="eyebrow"><span class="dot"></span> Early-stage project overview</span>
+            <h1>Make your next career move with <span class="gradient">more clarity.</span></h1>
+            <p class="lead">An independent project exploring how AI can help people discover relevant opportunities, understand job requirements, and prepare thoughtful applications — while keeping people in control.</p>
+            <div class="hero-actions">
+              <a class="button primary" href="#approach">Explore the approach <span aria-hidden="true">&nbsp;↘</span></a>
+              <a class="button" href="#principles">Our principles</a>
+            </div>
+          </div>
+          <div class="visual" aria-label="Illustrative job matching interface concept">
+            <div class="orb"></div>
+            <div class="dashboard-card">
+              <div class="card-top"><div><div class="mini-label">CONCEPT PREVIEW</div><strong>Opportunity overview</strong></div><span class="pill">Illustrative</span></div>
+              <div class="job-line"><div class="company-icon">S</div><div class="job-info"><strong>Software Engineer</strong><span>Example role · Remote / Hybrid</span></div><span class="fit">Fit insights</span></div>
+              <div class="job-line"><div class="company-icon">D</div><div class="job-info"><strong>Data &amp; AI Specialist</strong><span>Example role · International</span></div><span class="fit">Skill review</span></div>
+              <div class="job-line"><div class="company-icon">P</div><div class="job-info"><strong>Product Engineer</strong><span>Example role · Flexible</span></div><span class="fit">Next steps</span></div>
+              <p class="mini-label" style="margin:18px 0 0; line-height:1.5;">Illustrative interface only. These are not live job listings or real match scores.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="approach">
+        <div class="wrap">
+          <div class="section-heading">
+            <h2>A more considered job-search workflow.</h2>
+            <p>The project is being explored in stages, starting with technology roles and aiming to support opportunities in Türkiye and internationally.</p>
+          </div>
+          <div class="features">
+            <article class="feature">
+              <div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><path d="M14 2v6h6M8 13h8M8 17h6"></path></svg></div>
+              <h3>Understand your profile</h3>
+              <p>Explore ways to structure CV information and identify skills, experience, and preferences without inventing qualifications.</p>
+            </article>
+            <article class="feature">
+              <div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4M8.5 11h5M11 8.5v5"></path></svg></div>
+              <h3>Discover relevant roles</h3>
+              <p>Evaluate job listings from appropriate sources and explain how their stated requirements relate to a candidate's profile.</p>
+            </article>
+            <article class="feature">
+              <div class="feature-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M5.6 5.6l2.1 2.1M3 12h3M5.6 18.4l2.1-2.1M12 18v3M18.4 18.4l-2.1-2.1M18 12h3M18.4 5.6l-2.1 2.1"></path><circle cx="12" cy="12" r="4"></circle></svg></div>
+              <h3>Prepare with confidence</h3>
+              <p>Explore tailored application drafts and practical next steps that users can review and edit before taking action.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="principles">
+        <div class="wrap principles">
+          <div>
+            <span class="eyebrow">Design principles</span>
+            <h2>Helpful AI.<br><span class="gradient">Human decisions.</span></h2>
+          </div>
+          <div class="principle-list">
+            <div class="principle"><span class="check">✓</span><div><strong>People stay in control</strong><p>No application should be submitted without the user's explicit confirmation. The initial approach prioritizes links to official application pages.</p></div></div>
+            <div class="principle"><span class="check">✓</span><div><strong>Clear about uncertainty</strong><p>Job availability, source coverage, and match insights should be presented with appropriate caveats rather than unsupported guarantees.</p></div></div>
+            <div class="principle"><span class="check">✓</span><div><strong>Respect for privacy and sources</strong><p>The project is being designed with CV privacy, responsible data handling, and job-source terms in mind. Source access does not automatically imply permission to republish data.</p></div></div>
+            <div class="principle"><span class="check">✓</span><div><strong>No fabricated credentials</strong><p>AI-generated application material should be grounded in information provided by the candidate and reviewed before use.</p></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="wrap">
+          <div class="status-panel"><span class="status-mark" aria-hidden="true">◷</span><div><strong>Currently in development</strong><p>This page describes an independent early-stage project. It is not a live job board, does not currently provide job-search services, and is not affiliated with any employer or job-listing provider. Features and availability may change as feasibility and compliance are evaluated.</p></div></div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap footer-inner">
+        <div class="footer-note">© <span id="year">2026</span> AI Job Search Platform · Independent project in development.</div>
+        <div>Concept page · No live listings or application processing</div>
+      </div>
+    </footer>
+  </div>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
